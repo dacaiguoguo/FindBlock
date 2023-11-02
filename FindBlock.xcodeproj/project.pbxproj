@@ -14,6 +14,7 @@
 		9DE14F902AF3DA6F00BB0293 /* FindBlockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE14F8F2AF3DA6F00BB0293 /* FindBlockTests.swift */; };
 		9DE14F9A2AF3DA6F00BB0293 /* FindBlockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE14F992AF3DA6F00BB0293 /* FindBlockUITests.swift */; };
 		9DE14F9C2AF3DA6F00BB0293 /* FindBlockUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE14F9B2AF3DA6F00BB0293 /* FindBlockUITestsLaunchTests.swift */; };
+		9DE14FA92AF3DA9700BB0293 /* PointInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE14FA82AF3DA9700BB0293 /* PointInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		9DE14F952AF3DA6F00BB0293 /* FindBlockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FindBlockUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DE14F992AF3DA6F00BB0293 /* FindBlockUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBlockUITests.swift; sourceTree = "<group>"; };
 		9DE14F9B2AF3DA6F00BB0293 /* FindBlockUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBlockUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9DE14FA82AF3DA9700BB0293 /* PointInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			children = (
 				9DE14F7D2AF3DA6C00BB0293 /* FindBlockApp.swift */,
 				9DE14F7F2AF3DA6C00BB0293 /* ContentView.swift */,
+				9DE14FA82AF3DA9700BB0293 /* PointInfo.swift */,
 				9DE14F812AF3DA6F00BB0293 /* Assets.xcassets */,
 				9DE14F862AF3DA6F00BB0293 /* FindBlock.entitlements */,
 				9DE14F832AF3DA6F00BB0293 /* Preview Content */,
@@ -261,6 +264,7 @@
 			files = (
 				9DE14F802AF3DA6C00BB0293 /* ContentView.swift in Sources */,
 				9DE14F7E2AF3DA6C00BB0293 /* FindBlockApp.swift in Sources */,
+				9DE14FA92AF3DA9700BB0293 /* PointInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

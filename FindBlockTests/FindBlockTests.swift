@@ -19,11 +19,98 @@ final class FindBlockTests: XCTestCase {
     }
 
     func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+        // 三维数组
+        let array3d = [
+            [[1, 2, 3],    [4, 5, 6],    [7, 8, 9]],
+            [[21, 22, 23], [24, 25, 26], [27, 28, 33]],
+            [[31, 32, 33], [34, 35, 33], [37, 38, 33]],
+        ]
+
+        // 映射成三维 PointInfo 类的实例
+        let pointInfo3DArray = mapTo3DPointInfo(array3d: array3d)
+        // 示例用法
+        let hasContinuousEqual = hasContinuousEqualValues(pointInfo3DArray: pointInfo3DArray)
+        print("是否存在连续三个相等的值: \(hasContinuousEqual)")
+
+        let ret = hasContinuousEqualValues(pointInfo3DArray: pointInfo3DArray)
+        XCTAssertTrue(ret)
+    }
+
+    func testExample2() throws {
+        // 三维数组
+        let array3d = [
+            [[1, 2, 3],    [4, 5, 6],    [7, 8, 9]],
+            [[21, 22, 23], [24, 25, 26], [27, 28, 33]],
+            [[31, 32, 33], [34, 35, 31], [37, 38, 33]],
+        ]
+
+        // 映射成三维 PointInfo 类的实例
+        let pointInfo3DArray = mapTo3DPointInfo(array3d: array3d)
+        // 示例用法
+        let hasContinuousEqual = hasContinuousEqualValues(pointInfo3DArray: pointInfo3DArray)
+        print("是否存在连续三个相等的值: \(hasContinuousEqual)")
+
+        let ret = hasContinuousEqualValues(pointInfo3DArray: pointInfo3DArray)
+        print(ret)
+        XCTAssertFalse(ret)
+    }
+
+    func testExample3() throws {
+        // 三维数组
+        let array3d = [
+            [[1, 2, 3],    [4, 5, 6],    [7, 22, 9]],
+            [[21, 22, 23], [24, 22, 26], [27, 22, 33]],
+            [[31, 32, 33], [34, 35, 36], [37, 38, 39]],
+        ]
+
+        // 映射成三维 PointInfo 类的实例
+        let pointInfo3DArray = mapTo3DPointInfo(array3d: array3d)
+        // 示例用法
+        let hasContinuousEqual = hasContinuousEqualValues(pointInfo3DArray: pointInfo3DArray)
+        print("是否存在连续三个相等的值: \(hasContinuousEqual)")
+
+        let ret = hasContinuousEqualValues(pointInfo3DArray: pointInfo3DArray)
+        print(ret)
+        XCTAssert(ret)
+    }
+
+
+    func testExample4() throws {
+        // 三维数组
+        let array3d = [
+            [[1, 22, 3],    [4, 5, 6],    [7, 8, 9]],
+            [[21, 22, 23], [24, 22, 26], [27, 22, 33]],
+            [[31, 32, 33], [34, 35, 36], [37, 38, 39]],
+        ]
+
+        // 映射成三维 PointInfo 类的实例
+        let pointInfo3DArray = mapTo3DPointInfo(array3d: array3d)
+        // 示例用法
+        let hasContinuousEqual = hasContinuousEqualValues(pointInfo3DArray: pointInfo3DArray)
+        print("是否存在连续三个相等的值: \(hasContinuousEqual)")
+
+        let ret = hasContinuousEqualValues(pointInfo3DArray: pointInfo3DArray)
+        print(ret)
+        XCTAssert(ret)
+    }
+
+    func testExample5() throws {
+        // 三维数组
+        let array3d = [
+            [[21, 2, 3],    [4, 5, 6],    [7, 8, 9]],
+            [[21, 21, 21], [24, 25, 26], [27, 28, 33]],
+            [[31, 32, 33], [34, 35, 36], [37, 38, 39]],
+        ]
+
+        // 映射成三维 PointInfo 类的实例
+        let pointInfo3DArray = mapTo3DPointInfo(array3d: array3d)
+        // 示例用法
+        let hasContinuousEqual = hasContinuousEqualValues(pointInfo3DArray: pointInfo3DArray)
+        print("是否存在连续三个相等的值: \(hasContinuousEqual)")
+
+        let ret = hasContinuousEqualValues(pointInfo3DArray: pointInfo3DArray)
+        print(ret)
+        XCTAssert(ret)
     }
 
     func testPerformanceExample() throws {
