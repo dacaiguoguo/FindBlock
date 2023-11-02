@@ -86,6 +86,20 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
     let rows = pointInfo3DArray.count
     let cols = pointInfo3DArray[0].count
     let depth = pointInfo3DArray[0][0].count
+    struct Person {
+        let name: String
+        let age: Int
+    }
+
+    let person = Person(name: "John", age: 30)
+
+    let propertyName = "name"
+
+    if let value = Mirror(reflecting: person).children.first(where: { $0.label == propertyName })?.value {
+        print("Property \(propertyName): \(value)")
+    } else {
+        print("Property not found")
+    }
 
     for i in 0..<rows {
         for j in 0..<cols {
