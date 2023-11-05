@@ -18,14 +18,21 @@ class PointInfo : CustomDebugStringConvertible  {
     var front: PointInfo?
     var back: PointInfo?
 
-    class func checkList(_ ss:String) -> [String] {
-        let preList = [["up",
-                        "down"],
-                       ["left",
-                        "right"],
-                       ["front",
-                        "back"]]
-        var ret:[String] = []
+    static let preList = [[\PointInfo.up,
+                            \PointInfo.down,],
+                          [\PointInfo.left,
+                            \PointInfo.right],
+                          [\PointInfo.front,
+                            \PointInfo.back,]]
+
+    static let allKeyList = [\PointInfo.up,
+                              \PointInfo.down,
+                              \PointInfo.left,
+                              \PointInfo.right,
+                              \PointInfo.front,
+                              \PointInfo.back,]
+    class func checkList(_ ss:ReferenceWritableKeyPath<PointInfo, PointInfo?>) -> [ ReferenceWritableKeyPath<PointInfo, PointInfo?>] {
+        var ret:[ReferenceWritableKeyPath<PointInfo, PointInfo?>] = []
         for aa in preList {
             if !aa.contains(ss) {
                 ret.append(contentsOf: aa)
@@ -98,13 +105,11 @@ func mapTo3DPointInfo(array3d: [[[Int]]]) -> [[[PointInfo]]] {
     return pointInfoArray
 }
 
-func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
+func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> (Bool, PointInfo?, String) {
     let rows = pointInfo3DArray.count
     let cols = pointInfo3DArray[0].count
     let depth = pointInfo3DArray[0][0].count
 
-// 无非就是 水平的还是 垂直的，如果是水平的，先看启发方向是那边，如果是
-    // L就有24个方向，然后再给一个初始方向，就可以知道需要怎样的旋转才能和目标对齐。
     for i in 0..<rows {
         for j in 0..<cols {
             for k in 0..<depth {
@@ -113,167 +118,44 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
                 if value < 0 {
                     continue
                 }
-                // 检查上方连续三个值是否相等
-                if let up1 = currentPoint.up,
-                   let up2 = up1.up,
-                   up1.value == value && up2.value == value {
-                    if let right2up = up2.left, right2up.value == value {
-                        print("has same \(#line)\(up1) \(up2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = up2.right, right2up.value == value {
-                        print("has same \(#line)\(up1) \(up2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = up2.front, right2up.value == value {
-                        print("has same \(#line)水平向后，向左\(up1) \(up2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = up2.back, right2up.value == value {
-                        print("has same \(#line)水平向后，向右\(up1) \(up2) \(right2up)")
-                        return true
+                for akey in PointInfo.allKeyList {
+                    let ret = checkPoint(currentPoint, with: value, akeyPath: akey)
+                    if ret.0  {
+                        return ret
                     }
                 }
-
-                // 检查下方连续三个值是否相等
-                if let down1 = currentPoint.down,
-                   let down2 = down1.down,
-                   down1.value == value && down2.value == value {
-                    if let right2up = down2.left, right2up.value == value {
-                        print("has same \(#line)\(down1) \(down2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = down2.right, right2up.value == value {
-                        print("has same \(#line)\(down1) \(down2) \(right2up)")
-
-                        return true
-                    }
-                    if let right2up = down2.front, right2up.value == value {
-                        print("has same \(#line)\(down1) \(down2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = down2.back, right2up.value == value {
-                        print("has same \(#line)\(down1) \(down2) \(right2up)")
-                        return true
-                    }
-                }
-
-                // 检查左方连续三个值是否相等
-                if let left1 = currentPoint.left,
-                   let left2 = left1.left,
-                   left1.value == value && left2.value == value {
-                    if let right2up = left2.up, right2up.value == value {
-                        print("has same \(#line)\(left1) \(left2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = left2.down, right2up.value == value {
-                        print("has same \(#line)\(left1) \(left2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = left2.front, right2up.value == value {
-                        print("has same \(#line)\(left1) \(left2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = left2.back, right2up.value == value {
-                        print("has same \(#line)\(left1) \(left2) \(right2up)")
-                        return true
-                    }
-                }
-
-                // 检查右方连续三个值是否相等
-                if let right1 = currentPoint.right,
-                   let right2 = right1.right,
-                   right1.value == value && right2.value == value {
-                    if let right2up = right2.up, right2up.value == value {
-                        print("has same \(#line)\(right1) \(right2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = right2.down, right2up.value == value {
-                        print("has same \(#line)\(right1) \(right2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = right2.front, right2up.value == value {
-                        print("has same \(#line)\(right1) \(right2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = right2.back, right2up.value == value {
-                        print("has same \(#line)\(right1) \(right2) \(right2up)")
-                        return true
-                    }
-                }
-
-                // 检查前方连续三个值是否相等
-                if let front1 = currentPoint.front,
-                   let front2 = front1.front,
-                   front1.value == value && front2.value == value {
-                    if let right2up = front2.up, right2up.value == value {
-                        print("has same \(#line) 水平向左，向后\(currentPoint) \(front1) \(front2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = front2.down, right2up.value == value {
-                        print("has same \(#line) 水平向左，向前\(currentPoint) \(front1) \(front2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = front2.left, right2up.value == value {
-                        print("has same \(#line)\(front1) \(front2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = front2.right, right2up.value == value {
-                        print("has same \(#line)\(front1) \(front2) \(right2up)")
-                        return true
-                    }
-                }
-
-                // 检查后方连续三个值是否相等
-                return checkPoint(currentPoint, with: value)
             }
         }
     }
 
-    return false
+    return (false, nil, "none")
 }
+extension ReferenceWritableKeyPath where Root == PointInfo {
+    var stringValue: String {
+        switch self {
+        case \PointInfo.right: return "right"
+        case \PointInfo.left: return "left"
+        case \PointInfo.down: return "down"
+        case \PointInfo.up: return "up"
+        case \PointInfo.front: return "front"
+        case \PointInfo.back: return "back"
 
-func checkPoint(_ currentPoint:PointInfo, with value: Int) -> Bool {
-    let clist = PointInfo.checkList("back")
-    //    struct Person {
-    //        let name: String
-    //        let age: Int
-    //    }
-    //
-    //    let person = Person(name: "John", age: 30)
-    //
-        let propertyName = "back"
-    //
-        if let valuec = Mirror(reflecting: currentPoint).children.first(where: { $0.label == propertyName })?.value {
-            print("Property \(propertyName): \(valuec)")
-            if let valuec = Mirror(reflecting: valuec).children.first(where: { $0.label == propertyName })?.value {
-                print("Property \(propertyName): \(valuec)")
-
-
-            }
-
-        } else {
-            print("Property not found")
-        }
-    if let back1 = currentPoint.back,
-       let back2 = back1.back,
-       back1.value == value && back2.value == value {
-        if let right2up = back2.up, right2up.value == value {
-            print("has same \(#line) 水平X+，Y-\(currentPoint) \(back1) \(back2) \(right2up)")
-            return true
-        }
-        if let right2up = back2.down, right2up.value == value {
-            print("has same \(#line) 水平X+，Y+\(currentPoint) \(back1) \(back2) \(right2up)")
-            return true
-        }
-        if let right2up = back2.left, right2up.value == value {
-            print("has same \(#line) 水平X+，向Z+\(currentPoint) \(back1) \(back2) \(right2up)")
-            return true
-        }
-        if let right2up = back2.right, right2up.value == value {
-            print("has same \(#line) 水平X+，向Z-\(currentPoint) \(back1) \(back2) \(right2up)")
-            return true
+        default: fatalError("Unexpected key path")
         }
     }
-    return false
+}
+func checkPoint(_ currentPoint:PointInfo, with value: Int, akeyPath:ReferenceWritableKeyPath<PointInfo, PointInfo?>) -> (Bool, PointInfo?, String) {
+    let clist = PointInfo.checkList(akeyPath)
+    if let back1 = currentPoint[keyPath:akeyPath] {
+        if let back2 = back1[keyPath:akeyPath] {
+            if back1.value == value && back2.value == value {
+                for akey in clist {
+                    if let back3 = back2[keyPath:akey], back3.value == value {
+                        return (true, currentPoint, "\(akeyPath.stringValue), \(akey.stringValue)")
+                    }
+                }
+            }
+        }
+    }
+    return (false, nil, "none")
 }
