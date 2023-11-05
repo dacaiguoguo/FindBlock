@@ -26,7 +26,7 @@ final class FindBlockTests: XCTestCase {
 //        XCTAssert(Set(ret3) == Set(["up","down", "front","back"]))
     }
 
-    func testExample5() throws {
+    func testExampleBack() throws {
         // 三维数组
         let array3dList = [
             [
@@ -58,6 +58,37 @@ final class FindBlockTests: XCTestCase {
         }
     }
 
+    func testExampleFront() throws {
+        // 三维数组
+        let array3dList = [
+            [
+                [[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]],
+                [[2, -1, -1], [2, 2, 2], [-1, -1, -1]],
+                [[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]],
+            ],[
+                [[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]],
+                [[-1, -1, -1], [2, 2, 2], [2, -1, -1]],
+                [[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]],
+            ],
+            [
+                [[-1, -1, -1], [2, -1, -1], [-1, -1, -1]],
+                [[-1, -1, -1], [2, 2, 2], [-1, -1, -1]],
+                [[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]],
+            ],[
+                [[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]],
+                [[-1, -1, -1], [2, 2, 2], [-1, -1, -1]],
+                [[-1, -1, -1], [2, -1, -1], [-1, -1, -1]],
+            ]
+        ]
+
+        array3dList.forEach { array3d in
+            // 映射成三维 PointInfo 类的实例
+            let pointInfo3DArray = mapTo3DPointInfo(array3d: array3d)
+            let ret = hasContinuousEqualValues(pointInfo3DArray: pointInfo3DArray)
+            print(ret)
+            XCTAssert(ret.0)
+        }
+    }
 //    func testPerformanceExample() throws {
 //        // This is an example of a performance test case.
 //        self.measure {
