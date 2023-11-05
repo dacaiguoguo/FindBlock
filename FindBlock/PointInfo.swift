@@ -107,7 +107,9 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
             for k in 0..<depth {
                 let currentPoint = pointInfo3DArray[i][j][k]
                 let value = currentPoint.value
-
+                if value < 0 {
+                    continue
+                }
                 // 检查上方连续三个值是否相等
                 if let up1 = currentPoint.up,
                    let up2 = up1.up,
@@ -224,19 +226,19 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
                    let back2 = back1.back,
                    back1.value == value && back2.value == value {
                     if let right2up = back2.up, right2up.value == value {
-                        print("has same \(#line) 水平向右，向后\(back1) \(back2) \(right2up)")
+                        print("has same \(#line) 水平X+，Y-\(currentPoint) \(back1) \(back2) \(right2up)")
                         return true
                     }
                     if let right2up = back2.down, right2up.value == value {
-                        print("has same \(#line) 水平向右，向前\(back1) \(back2) \(right2up)")
+                        print("has same \(#line) 水平X+，Y+\(currentPoint) \(back1) \(back2) \(right2up)")
                         return true
                     }
                     if let right2up = back2.left, right2up.value == value {
-                        print("has same \(#line)\(back1) \(back2) \(right2up)")
+                        print("has same \(#line) 水平X+，向Z+\(currentPoint) \(back1) \(back2) \(right2up)")
                         return true
                     }
                     if let right2up = back2.right, right2up.value == value {
-                        print("has same \(#line)\(back1) \(back2) \(right2up)")
+                        print("has same \(#line) 水平X+，向Z-\(currentPoint) \(back1) \(back2) \(right2up)")
                         return true
                     }
                 }
