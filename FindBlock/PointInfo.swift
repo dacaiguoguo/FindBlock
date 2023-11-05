@@ -18,6 +18,22 @@ class PointInfo : CustomDebugStringConvertible  {
     var front: PointInfo?
     var back: PointInfo?
 
+    class func checkList(_ ss:String) -> [String] {
+        let preList = [["up",
+                        "down"],
+                       ["left",
+                        "right"],
+                       ["front",
+                        "back"]]
+        var ret:[String] = []
+        for aa in preList {
+            if !aa.contains(ss) {
+                ret.append(contentsOf: aa)
+            }
+        }
+        return ret
+    }
+
     init(x: Int, y: Int, z: Int, value: Int) {
         self.x = x
         self.y = y
@@ -86,20 +102,7 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
     let rows = pointInfo3DArray.count
     let cols = pointInfo3DArray[0].count
     let depth = pointInfo3DArray[0][0].count
-//    struct Person {
-//        let name: String
-//        let age: Int
-//    }
-//
-//    let person = Person(name: "John", age: 30)
-//
-//    let propertyName = "name"
-//
-//    if let value = Mirror(reflecting: person).children.first(where: { $0.label == propertyName })?.value {
-//        print("Property \(propertyName): \(value)")
-//    } else {
-//        print("Property not found")
-//    }
+
 // 无非就是 水平的还是 垂直的，如果是水平的，先看启发方向是那边，如果是
     // L就有24个方向，然后再给一个初始方向，就可以知道需要怎样的旋转才能和目标对齐。
     for i in 0..<rows {
@@ -222,26 +225,7 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
                 }
 
                 // 检查后方连续三个值是否相等
-                if let back1 = currentPoint.back,
-                   let back2 = back1.back,
-                   back1.value == value && back2.value == value {
-                    if let right2up = back2.up, right2up.value == value {
-                        print("has same \(#line) 水平X+，Y-\(currentPoint) \(back1) \(back2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = back2.down, right2up.value == value {
-                        print("has same \(#line) 水平X+，Y+\(currentPoint) \(back1) \(back2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = back2.left, right2up.value == value {
-                        print("has same \(#line) 水平X+，向Z+\(currentPoint) \(back1) \(back2) \(right2up)")
-                        return true
-                    }
-                    if let right2up = back2.right, right2up.value == value {
-                        print("has same \(#line) 水平X+，向Z-\(currentPoint) \(back1) \(back2) \(right2up)")
-                        return true
-                    }
-                }
+                return checkPoint(currentPoint, with: value)
             }
         }
     }
@@ -249,3 +233,47 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
     return false
 }
 
+func checkPoint(_ currentPoint:PointInfo, with value: Int) -> Bool {
+    let clist = PointInfo.checkList("back")
+    //    struct Person {
+    //        let name: String
+    //        let age: Int
+    //    }
+    //
+    //    let person = Person(name: "John", age: 30)
+    //
+        let propertyName = "back"
+    //
+        if let valuec = Mirror(reflecting: currentPoint).children.first(where: { $0.label == propertyName })?.value {
+            print("Property \(propertyName): \(valuec)")
+            if let valuec = Mirror(reflecting: valuec).children.first(where: { $0.label == propertyName })?.value {
+                print("Property \(propertyName): \(valuec)")
+
+
+            }
+
+        } else {
+            print("Property not found")
+        }
+    if let back1 = currentPoint.back,
+       let back2 = back1.back,
+       back1.value == value && back2.value == value {
+        if let right2up = back2.up, right2up.value == value {
+            print("has same \(#line) 水平X+，Y-\(currentPoint) \(back1) \(back2) \(right2up)")
+            return true
+        }
+        if let right2up = back2.down, right2up.value == value {
+            print("has same \(#line) 水平X+，Y+\(currentPoint) \(back1) \(back2) \(right2up)")
+            return true
+        }
+        if let right2up = back2.left, right2up.value == value {
+            print("has same \(#line) 水平X+，向Z+\(currentPoint) \(back1) \(back2) \(right2up)")
+            return true
+        }
+        if let right2up = back2.right, right2up.value == value {
+            print("has same \(#line) 水平X+，向Z-\(currentPoint) \(back1) \(back2) \(right2up)")
+            return true
+        }
+    }
+    return false
+}
