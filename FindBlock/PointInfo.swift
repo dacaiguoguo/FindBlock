@@ -26,7 +26,7 @@ class PointInfo : CustomDebugStringConvertible  {
     }
 
     var debugDescription: String {
-        "Back: (x: \(x), y: \(y), z: \(z), value: \(value))"
+        "(x:\(x), y:\(y), z:\(z), value:\(value))"
     }
 }
 
@@ -86,21 +86,22 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
     let rows = pointInfo3DArray.count
     let cols = pointInfo3DArray[0].count
     let depth = pointInfo3DArray[0][0].count
-    struct Person {
-        let name: String
-        let age: Int
-    }
-
-    let person = Person(name: "John", age: 30)
-
-    let propertyName = "name"
-
-    if let value = Mirror(reflecting: person).children.first(where: { $0.label == propertyName })?.value {
-        print("Property \(propertyName): \(value)")
-    } else {
-        print("Property not found")
-    }
-
+//    struct Person {
+//        let name: String
+//        let age: Int
+//    }
+//
+//    let person = Person(name: "John", age: 30)
+//
+//    let propertyName = "name"
+//
+//    if let value = Mirror(reflecting: person).children.first(where: { $0.label == propertyName })?.value {
+//        print("Property \(propertyName): \(value)")
+//    } else {
+//        print("Property not found")
+//    }
+// 无非就是 水平的还是 垂直的，如果是水平的，先看启发方向是那边，如果是
+    // L就有24个方向，然后再给一个初始方向，就可以知道需要怎样的旋转才能和目标对齐。
     for i in 0..<rows {
         for j in 0..<cols {
             for k in 0..<depth {
@@ -112,19 +113,19 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
                    let up2 = up1.up,
                    up1.value == value && up2.value == value {
                     if let right2up = up2.left, right2up.value == value {
-                        print("has same \(up1) \(up2) \(right2up)")
+                        print("has same \(#line)\(up1) \(up2) \(right2up)")
                         return true
                     }
                     if let right2up = up2.right, right2up.value == value {
-                        print("has same \(up1) \(up2) \(right2up)")
+                        print("has same \(#line)\(up1) \(up2) \(right2up)")
                         return true
                     }
                     if let right2up = up2.front, right2up.value == value {
-                        print("has same \(up1) \(up2) \(right2up)")
+                        print("has same \(#line)水平向后，向左\(up1) \(up2) \(right2up)")
                         return true
                     }
                     if let right2up = up2.back, right2up.value == value {
-                        print("has same \(up1) \(up2) \(right2up)")
+                        print("has same \(#line)水平向后，向右\(up1) \(up2) \(right2up)")
                         return true
                     }
                 }
@@ -134,20 +135,20 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
                    let down2 = down1.down,
                    down1.value == value && down2.value == value {
                     if let right2up = down2.left, right2up.value == value {
-                        print("has same \(down1) \(down2) \(right2up)")
+                        print("has same \(#line)\(down1) \(down2) \(right2up)")
                         return true
                     }
                     if let right2up = down2.right, right2up.value == value {
-                        print("has same \(down1) \(down2) \(right2up)")
+                        print("has same \(#line)\(down1) \(down2) \(right2up)")
 
                         return true
                     }
                     if let right2up = down2.front, right2up.value == value {
-                        print("has same \(down1) \(down2) \(right2up)")
+                        print("has same \(#line)\(down1) \(down2) \(right2up)")
                         return true
                     }
                     if let right2up = down2.back, right2up.value == value {
-                        print("has same \(down1) \(down2) \(right2up)")
+                        print("has same \(#line)\(down1) \(down2) \(right2up)")
                         return true
                     }
                 }
@@ -157,19 +158,19 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
                    let left2 = left1.left,
                    left1.value == value && left2.value == value {
                     if let right2up = left2.up, right2up.value == value {
-                        print("has same \(left1) \(left2) \(right2up)")
+                        print("has same \(#line)\(left1) \(left2) \(right2up)")
                         return true
                     }
                     if let right2up = left2.down, right2up.value == value {
-                        print("has same \(left1) \(left2) \(right2up)")
+                        print("has same \(#line)\(left1) \(left2) \(right2up)")
                         return true
                     }
                     if let right2up = left2.front, right2up.value == value {
-                        print("has same \(left1) \(left2) \(right2up)")
+                        print("has same \(#line)\(left1) \(left2) \(right2up)")
                         return true
                     }
                     if let right2up = left2.back, right2up.value == value {
-                        print("has same \(left1) \(left2) \(right2up)")
+                        print("has same \(#line)\(left1) \(left2) \(right2up)")
                         return true
                     }
                 }
@@ -179,19 +180,19 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
                    let right2 = right1.right,
                    right1.value == value && right2.value == value {
                     if let right2up = right2.up, right2up.value == value {
-                        print("has same \(right1) \(right2) \(right2up)")
+                        print("has same \(#line)\(right1) \(right2) \(right2up)")
                         return true
                     }
                     if let right2up = right2.down, right2up.value == value {
-                        print("has same \(right1) \(right2) \(right2up)")
+                        print("has same \(#line)\(right1) \(right2) \(right2up)")
                         return true
                     }
                     if let right2up = right2.front, right2up.value == value {
-                        print("has same \(right1) \(right2) \(right2up)")
+                        print("has same \(#line)\(right1) \(right2) \(right2up)")
                         return true
                     }
                     if let right2up = right2.back, right2up.value == value {
-                        print("has same \(right1) \(right2) \(right2up)")
+                        print("has same \(#line)\(right1) \(right2) \(right2up)")
                         return true
                     }
                 }
@@ -201,19 +202,19 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
                    let front2 = front1.front,
                    front1.value == value && front2.value == value {
                     if let right2up = front2.up, right2up.value == value {
-                        print("has same \(front1) \(front2) \(right2up)")
+                        print("has same \(#line) 水平向左，向后\(currentPoint) \(front1) \(front2) \(right2up)")
                         return true
                     }
                     if let right2up = front2.down, right2up.value == value {
-                        print("has same \(front1) \(front2) \(right2up)")
+                        print("has same \(#line) 水平向左，向前\(currentPoint) \(front1) \(front2) \(right2up)")
                         return true
                     }
                     if let right2up = front2.left, right2up.value == value {
-                        print("has same \(front1) \(front2) \(right2up)")
+                        print("has same \(#line)\(front1) \(front2) \(right2up)")
                         return true
                     }
                     if let right2up = front2.right, right2up.value == value {
-                        print("has same \(front1) \(front2) \(right2up)")
+                        print("has same \(#line)\(front1) \(front2) \(right2up)")
                         return true
                     }
                 }
@@ -223,19 +224,19 @@ func hasContinuousEqualValues(pointInfo3DArray: [[[PointInfo]]]) -> Bool {
                    let back2 = back1.back,
                    back1.value == value && back2.value == value {
                     if let right2up = back2.up, right2up.value == value {
-                        print("has same \(back1) \(back2) \(right2up)")
+                        print("has same \(#line) 水平向右，向后\(back1) \(back2) \(right2up)")
                         return true
                     }
                     if let right2up = back2.down, right2up.value == value {
-                        print("has same \(back1) \(back2) \(right2up)")
+                        print("has same \(#line) 水平向右，向前\(back1) \(back2) \(right2up)")
                         return true
                     }
                     if let right2up = back2.left, right2up.value == value {
-                        print("has same \(back1) \(back2) \(right2up)")
+                        print("has same \(#line)\(back1) \(back2) \(right2up)")
                         return true
                     }
                     if let right2up = back2.right, right2up.value == value {
-                        print("has same \(back1) \(back2) \(right2up)")
+                        print("has same \(#line)\(back1) \(back2) \(right2up)")
                         return true
                     }
                 }
